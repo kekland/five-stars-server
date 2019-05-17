@@ -1,4 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
+import 'package:five_stars_server/body/vehicle_controller/vehicle_add.dart';
 import 'package:five_stars_server/model/shared.dart';
 
 class _Vehicle {
@@ -20,6 +21,16 @@ class _Vehicle {
 }
 
 class Vehicle extends ManagedObject<_Vehicle> implements _Vehicle {
+  Vehicle();
+  
+  Vehicle.fromData({AddVehicleObject data}) {
+    arrivalLocation = data.arrival;
+    departureLocation = data.departure;
+    weight = data.weight;
+    volume = data.volume;
+    vehicleType = data.vehicleType;
+  }
+
   Location get departureLocation =>
       Location(latitude: departureLatitude, longitude: departureLongitude, name: departureLocationName);
 
