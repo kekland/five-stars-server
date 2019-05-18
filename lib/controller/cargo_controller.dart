@@ -1,56 +1,56 @@
 import 'package:aqueduct/aqueduct.dart';
-import 'package:five_stars_server/body/vehicle_controller/vehicle_alter.dart';
-import 'package:five_stars_server/model/vehicle.dart';
+import 'package:five_stars_server/body/cargo_controller/cargo_alter.dart';
+import 'package:five_stars_server/model/cargo.dart';
 
-class VehicleController extends ResourceController {
-  VehicleController(this.context);
+class CargoController extends ResourceController {
+  CargoController(this.context);
 
   final ManagedContext context;
 
   @Operation.get()
-  Future<Response> getAllVehicles() async {
-    final query = Query<Vehicle>(context);
-    final vehicles = await query.fetch();
-    final List<AlterVehicleResponseObject> response =
-        vehicles.map((vehicle) => AlterVehicleResponseObject.fromVehicle(vehicle)).toList();
+  Future<Response> getAllCargo() async {
+    final query = Query<Cargo>(context);
+    final cargos = await query.fetch();
+    final List<AlterCargoResponseObject> response =
+        cargos.map((cargo) => AlterCargoResponseObject.fromCargo(cargo)).toList();
 
     return Response.ok(response);
   }
 
   @Operation.post()
-  Future<Response> addVehicle(@Bind.body() AlterVehicleRequestObject body) async {
-    final Vehicle vehicle = Vehicle.fromData(data: body);
-    final Vehicle insertedVehicle = await context.insertObject(vehicle);
+  Future<Response> addCargo(@Bind.body() AlterCargoRequestObject body) async {
+    final Cargo cargo = Cargo.fromData(data: body);
+    final Cargo insertedCargo = await context.insertObject(cargo);
 
-    return Response.ok(AlterVehicleResponseObject.fromVehicle(insertedVehicle));
+    return Response.ok(AlterCargoResponseObject.fromCargo(insertedCargo));
   }
 
   @Operation.put('id')
-  Future<Response> editVehicle(@Bind.path('id') int id, @Bind.body() AlterVehicleRequestObject body) async {
-    final query = Query<Vehicle>(context)
-      ..where((v) => v.id).equalTo(id)
-      ..values = Vehicle.fromData(data: body);
+  Future<Response> editCargo(@Bind.path('id') int id, @Bind.body() AlterCargoRequestObject body) async {
+    final query = Query<Cargo>(context)
+      ..where((c) => c.id).equalTo(id)
+      ..values = Cargo.fromData(data: body);
 
-    final updatedVehicle = await query.updateOne();
+    final updatedCargo = await query.updateOne();
 
-    if(updatedVehicle == null) {
+    if(updatedCargo == null) {
       return Response.notFound(body: {"error": "not-found"});
     }
 
-    return Response.ok(AlterVehicleResponseObject.fromVehicle(updatedVehicle));
+    return Response.ok(AlterCargoResponseObject.fromCargo(updatedCargo));
   }
 
   @Operation.delete('id')
-  Future<Response> deleteVehicle(@Bind.path('id') int id) async {
-    final query = Query<Vehicle>(context)
-      ..where((v) => v.id).equalTo(id);
+  Future<Response> deleteCargo(@Bind.path('id') int id) async {
+    final query = Query<Cargo>(context)
+      ..where((c) => c.id).equalTo(id);
 
-    final deletedVehicleCount = await query.delete();
+    final deletedCargoCount = await query.delete();
 
-    if(deletedVehicleCount == 0) {
+    if(deletedCargoCount == 0) {
       return Response.notFound(body: {"error": "not-found"});
     }
 
-    return Response.ok({"deleted": deletedVehicleCount});
+    return Response.ok({"deleted": deletedCargoCount});
   }
 }

@@ -1,3 +1,4 @@
+import 'package:five_stars_server/controller/cargo_controller.dart';
 import 'package:five_stars_server/controller/vehicle_controller.dart';
 
 import 'five_stars_server.dart';
@@ -32,6 +33,11 @@ class FiveStarsServerChannel extends ApplicationChannel {
     router
       .route('vehicle/[:id]')
       .link(() => VehicleController(context));
+
+    router
+      .route('cargo/[:id]')
+      .link(() => CargoController(context));
+
 
     return router;
   }
