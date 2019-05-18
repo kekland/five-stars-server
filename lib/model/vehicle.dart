@@ -51,12 +51,14 @@ class Vehicle extends ManagedObject<_Vehicle> implements _Vehicle {
       Location(latitude: arrivalLatitude, longitude: arrivalLongitude, name: arrivalLocationName);
 
   set departureLocation(Location newLocation) {
+    if(newLocation == null) return;
     departureLatitude = newLocation.latitude;
     departureLongitude = newLocation.longitude;
     departureLocationName = newLocation.name;
   }
 
   set arrivalLocation(Location newLocation) {
+    if(newLocation == null) return;
     arrivalLatitude = newLocation.latitude;
     arrivalLongitude = newLocation.longitude;
     arrivalLocationName = newLocation.name;

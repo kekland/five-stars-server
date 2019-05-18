@@ -33,6 +33,8 @@ class AlterVehicleResponseObject extends ResponseSerializable {
     weight = vehicle.weight;
     volume = vehicle.volume;
     vehicleType = vehicle.vehicleType;
+    createdAt = vehicle.createdAt;
+    updatedAt = vehicle.updatedAt;
   }
 
   int id;
@@ -42,6 +44,8 @@ class AlterVehicleResponseObject extends ResponseSerializable {
   double volume;
 
   VehicleType vehicleType;
+  DateTime createdAt;
+  DateTime updatedAt;
 
   @override
   Map<String, dynamic> asMap() {
@@ -52,6 +56,8 @@ class AlterVehicleResponseObject extends ResponseSerializable {
       "weight": weight,
       "volume": volume,
       "vehicleType": vehicleType.toString(),
+      "createdAt": createdAt.toIso8601String(),
+      "updatedAt": updatedAt.toIso8601String(),
     };
   }
 }

@@ -34,7 +34,7 @@ class VehicleController extends ResourceController {
     final updatedVehicle = await query.updateOne();
 
     if(updatedVehicle == null) {
-      return Response.notFound();
+      return Response.notFound(body: {"error": "not-found"});
     }
 
     return Response.ok(AlterVehicleResponseObject.fromVehicle(updatedVehicle));
@@ -45,12 +45,12 @@ class VehicleController extends ResourceController {
     final query = Query<Vehicle>(context)
       ..where((v) => v.id).equalTo(id);
 
-    final deletedVehicle = await query.fetchOne();
+    final deletedVehicleCount = await query.delete();
 
-    if(deletedVehicle == null) {
-      return Response.notFound();
+    if(deletedVehicleCount == 0) {
+      return Response.notFound(body: {"error": "not-found"});
     }
 
-    return Response.ok(AlterVehicleResponseObject.fromVehicle(deletedVehicle));
+    return Response.ok({"deleted": deletedVehicleCount});
   }
 }
