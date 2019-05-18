@@ -38,8 +38,8 @@ class FiveStarsServerChannel extends ApplicationChannel {
     final router = Router();
 
     router.route('auth').link(() => AuthController(authServer));
-    router.route('vehicle/[:id]')..link(() => Authorizer.bearer(authServer))..link(() => VehicleController(context));
-    router.route('cargo/[:id]')..link(() => Authorizer.bearer(authServer))..link(() => CargoController(context));
+    router.route('vehicle/[:id]').link(() => Authorizer.bearer(authServer)).link(() => VehicleController(context));
+    router.route('cargo/[:id]').link(() => Authorizer.bearer(authServer)).link(() => CargoController(context));
     router.route('user').link(() => UserController(context, authServer));
 
     return router;

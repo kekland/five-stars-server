@@ -49,6 +49,7 @@ class Cargo extends ManagedObject<_Cargo> implements _Cargo {
   @override
   void willInsert() {
     createdAt = DateTime.now().toUtc();
+    updatedAt = DateTime.now().toUtc();
   }
 
   Location get departureLocation =>

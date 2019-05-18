@@ -20,9 +20,10 @@ class VehicleController extends ResourceController {
   @Operation.post()
   Future<Response> addVehicle(@Bind.body() AlterVehicleRequestObject body) async {
     if(request.authorization == null) {
-      return Response.forbidden();
+      print(request.authorization);
+      return Response.unauthorized();
     }
-    
+
     final Vehicle vehicle = Vehicle.fromData(data: body);
     final Vehicle insertedVehicle = await context.insertObject(vehicle);
 
@@ -32,7 +33,7 @@ class VehicleController extends ResourceController {
   @Operation.put('id')
   Future<Response> editVehicle(@Bind.path('id') int id, @Bind.body() AlterVehicleRequestObject body) async {
     if(request.authorization == null) {
-      return Response.forbidden();
+      return Response.unauthorized();
     }
 
     final query = Query<Vehicle>(context)
@@ -51,7 +52,7 @@ class VehicleController extends ResourceController {
   @Operation.delete('id')
   Future<Response> deleteVehicle(@Bind.path('id') int id) async {
     if(request.authorization == null) {
-      return Response.forbidden();
+      return Response.unauthorized();
     }
     
     final query = Query<Vehicle>(context)

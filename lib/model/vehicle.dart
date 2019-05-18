@@ -42,6 +42,7 @@ class Vehicle extends ManagedObject<_Vehicle> implements _Vehicle {
   @override
   void willInsert() {
     createdAt = DateTime.now().toUtc();
+    updatedAt = DateTime.now().toUtc();
   }
 
   Location get departureLocation =>
