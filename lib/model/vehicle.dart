@@ -1,5 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
-import 'package:five_stars_server/body/vehicle_controller/vehicle_add.dart';
+import 'package:five_stars_server/body/vehicle_controller/vehicle_alter.dart';
 import 'package:five_stars_server/model/shared.dart';
 
 class _Vehicle {

@@ -21,7 +21,7 @@ class AlterVehicleRequestObject extends RequestSerializable {
     arrival = Location()..readFromMap(object['arrival'] as Map<String, dynamic>);
     weight = object['weight'] as double;
     volume = object['volume'] as double;
-    vehicleType = vehicleTypeStrings[object['vehicleType']];
+    vehicleType = VehicleTypeUtils.stringToVehicleType(object['vehicleType'] as String);
   }
 }
 
@@ -55,7 +55,7 @@ class AlterVehicleResponseObject extends ResponseSerializable {
       "arrival": arrival.asMap(),
       "weight": weight,
       "volume": volume,
-      "vehicleType": vehicleType.toString(),
+      "vehicleType": VehicleTypeUtils.vehicleTypeToString(vehicleType),
       "createdAt": createdAt.toIso8601String(),
       "updatedAt": updatedAt.toIso8601String(),
     };

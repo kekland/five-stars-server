@@ -50,20 +50,24 @@ enum VehicleType {
   curtain,
 }
 
-Map<String, VehicleType> vehicleTypeStrings = {
-  "autoTransporter": VehicleType.autoTransporter,
-  "onboard": VehicleType.onboard,
-  "jumbo": VehicleType.jumbo,
-  "closed": VehicleType.closed,
-  "isotherm": VehicleType.isotherm,
-  "isothermRefrigerated": VehicleType.isothermRefrigerated,
-  "containerTransporter": VehicleType.containerTransporter,
-  "mega": VehicleType.mega,
-  "open": VehicleType.open,
-  "refrigerator": VehicleType.refrigerator,
-  "dumpTruck": VehicleType.dumpTruck,
-  "tent": VehicleType.tent,
-  "trawl": VehicleType.trawl,
-  "allMetal": VehicleType.allMetal,
-  "curtain": VehicleType.curtain,
-};
+class VehicleTypeUtils {
+  static Map<String, VehicleType> vehicleTypeStrings = {
+    "autoTransporter": VehicleType.autoTransporter,
+    "onboard": VehicleType.onboard,
+    "jumbo": VehicleType.jumbo,
+    "closed": VehicleType.closed,
+    "isotherm": VehicleType.isotherm,
+    "isothermRefrigerated": VehicleType.isothermRefrigerated,
+    "containerTransporter": VehicleType.containerTransporter,
+    "mega": VehicleType.mega,
+    "open": VehicleType.open,
+    "refrigerator": VehicleType.refrigerator,
+    "dumpTruck": VehicleType.dumpTruck,
+    "tent": VehicleType.tent,
+    "trawl": VehicleType.trawl,
+    "allMetal": VehicleType.allMetal,
+    "curtain": VehicleType.curtain,
+  };
+  static VehicleType stringToVehicleType(String value) => vehicleTypeStrings[value];
+  static String vehicleTypeToString(VehicleType value) => value.toString().split('.').last;
+}

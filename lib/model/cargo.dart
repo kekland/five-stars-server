@@ -1,4 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
+import 'package:five_stars_server/body/cargo_controller/cargo_alter.dart';
 import 'package:five_stars_server/model/shared.dart';
 
 class _Cargo {
@@ -21,9 +22,35 @@ class _Cargo {
   double price;
 
   VehicleType vehicleType;
+
+  DateTime createdAt;
+  DateTime updatedAt;
 }
 
 class Cargo extends ManagedObject<_Cargo> implements _Cargo {
+  Cargo();
+
+  Cargo.fromData({AlterCargoRequestObject data}) {
+    arrivalTime = data.arrivalTime;
+    departureTime = data.departureTime;
+    arrivalLocation = data.arrival;
+    departureLocation = data.departure;
+    weight = data.weight;
+    volume = data.volume;
+    price = data.price;
+    vehicleType = data.vehicleType;
+  }
+
+  @override
+  void willUpdate() {
+    updatedAt = DateTime.now().toUtc();
+  }
+
+  @override
+  void willInsert() {
+    createdAt = DateTime.now().toUtc();
+  }
+
   Location get departureLocation =>
       Location(latitude: departureLatitude, longitude: departureLongitude, name: departureLocationName);
 
@@ -31,12 +58,14 @@ class Cargo extends ManagedObject<_Cargo> implements _Cargo {
       Location(latitude: arrivalLatitude, longitude: arrivalLongitude, name: arrivalLocationName);
 
   set departureLocation(Location newLocation) {
+    if (newLocation == null) return;
     departureLatitude = newLocation.latitude;
     departureLongitude = newLocation.longitude;
     departureLocationName = newLocation.name;
   }
 
   set arrivalLocation(Location newLocation) {
+    if (newLocation == null) return;
     arrivalLatitude = newLocation.latitude;
     arrivalLongitude = newLocation.longitude;
     arrivalLocationName = newLocation.name;
