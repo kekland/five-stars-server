@@ -1,4 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
+import 'package:five_stars_server/shared/utils.dart';
 import 'package:five_stars_server/shared/validated_serializable.dart';
 
 class Location extends ValidatedSerializable {
@@ -26,6 +27,8 @@ class Location extends ValidatedSerializable {
     latitude = object['latitude'] as double;
     longitude = object['longitude'] as double;
     name = object['name'] as String;
+
+    Utils.validateLatitudeLongitudePair(latitude: latitude, longitude: longitude);
   }
 }
 

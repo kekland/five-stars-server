@@ -18,6 +18,9 @@ abstract class ValidatedSerializable extends Serializable {
     try {
       readFromMapSerialized(object);
     } catch (err) {
+      if(err is SerializableException) {
+        rethrow;
+      }
       throw SerializableException([err.toString()]);
     }
   }

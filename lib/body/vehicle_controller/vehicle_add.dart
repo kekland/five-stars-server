@@ -1,25 +1,16 @@
 import 'package:aqueduct/aqueduct.dart';
 import 'package:five_stars_server/model/shared.dart';
+import 'package:five_stars_server/model/vehicle.dart';
+import 'package:five_stars_server/shared/route_serializable.dart';
 import 'package:five_stars_server/shared/validated_serializable.dart';
 
-class AddVehicleObject extends ValidatedSerializable {
+class AddVehicleRequestObject extends RequestSerializable {
   Location departure;
   Location arrival;
   double weight;
   double volume;
 
   VehicleType vehicleType;
-
-  @override
-  Map<String, dynamic> asMap() {
-    return {
-      'departure': departure.asMap(),
-      'arrival': arrival.asMap(),
-      'weight': weight,
-      'volume': volume,
-      'vehicleType': vehicleType,
-    };
-  }
 
   @override
   List<String> get keysToCheck => ['departure', 'arrival', 'weight', 'volume', 'vehicleType'];
@@ -31,5 +22,36 @@ class AddVehicleObject extends ValidatedSerializable {
     weight = object['weight'] as double;
     volume = object['volume'] as double;
     vehicleType = vehicleTypeStrings[object['vehicleType']];
+  }
+}
+
+class AddVehicleResponseObject extends ResponseSerializable {
+  AddVehicleResponseObject.fromVehicle(Vehicle vehicle) {
+    id = vehicle.id;
+    departure = vehicle.departureLocation;
+    arrival = vehicle.arrivalLocation;
+    weight = vehicle.weight;
+    volume = vehicle.volume;
+    vehicleType = vehicle.vehicleType;
+  }
+
+  int id;
+  Location departure;
+  Location arrival;
+  double weight;
+  double volume;
+
+  VehicleType vehicleType;
+
+  @override
+  Map<String, dynamic> asMap() {
+    return {
+      "id": id,
+      "departure": departure.asMap(),
+      "arrival": arrival.asMap(),
+      "weight": weight,
+      "volume": volume,
+      "vehicleType": vehicleType.toString(),
+    };
   }
 }

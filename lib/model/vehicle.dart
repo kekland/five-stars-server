@@ -23,7 +23,7 @@ class _Vehicle {
 class Vehicle extends ManagedObject<_Vehicle> implements _Vehicle {
   Vehicle();
   
-  Vehicle.fromData({AddVehicleObject data}) {
+  Vehicle.fromData({AddVehicleRequestObject data}) {
     arrivalLocation = data.arrival;
     departureLocation = data.departure;
     weight = data.weight;
