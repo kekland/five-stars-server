@@ -19,6 +19,10 @@ class CargoController extends ResourceController {
 
   @Operation.post()
   Future<Response> addCargo(@Bind.body() AlterCargoRequestObject body) async {
+    if(request.authorization == null) {
+      return Response.forbidden();
+    }
+    
     final Cargo cargo = Cargo.fromData(data: body);
     final Cargo insertedCargo = await context.insertObject(cargo);
 
@@ -27,6 +31,10 @@ class CargoController extends ResourceController {
 
   @Operation.put('id')
   Future<Response> editCargo(@Bind.path('id') int id, @Bind.body() AlterCargoRequestObject body) async {
+    if(request.authorization == null) {
+      return Response.forbidden();
+    }
+
     final query = Query<Cargo>(context)
       ..where((c) => c.id).equalTo(id)
       ..values = Cargo.fromData(data: body);
@@ -42,6 +50,10 @@ class CargoController extends ResourceController {
 
   @Operation.delete('id')
   Future<Response> deleteCargo(@Bind.path('id') int id) async {
+    if(request.authorization == null) {
+      return Response.forbidden();
+    }
+
     final query = Query<Cargo>(context)
       ..where((c) => c.id).equalTo(id);
 
