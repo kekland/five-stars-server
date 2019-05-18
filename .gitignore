@@ -15,3 +15,4 @@ Dart_Packages.xml
 *.aqueduct.pid
 .dart_tool/
 postgres.yaml
+commands/db_upgrade.bat

@@ -4,7 +4,7 @@ import 'package:five_stars_server/model/vehicle.dart';
 import 'package:five_stars_server/shared/route_serializable.dart';
 import 'package:five_stars_server/shared/validated_serializable.dart';
 
-class AddVehicleRequestObject extends RequestSerializable {
+class AlterVehicleRequestObject extends RequestSerializable {
   Location departure;
   Location arrival;
   double weight;
@@ -25,8 +25,8 @@ class AddVehicleRequestObject extends RequestSerializable {
   }
 }
 
-class AddVehicleResponseObject extends ResponseSerializable {
-  AddVehicleResponseObject.fromVehicle(Vehicle vehicle) {
+class AlterVehicleResponseObject extends ResponseSerializable {
+  AlterVehicleResponseObject.fromVehicle(Vehicle vehicle) {
     id = vehicle.id;
     departure = vehicle.departureLocation;
     arrival = vehicle.arrivalLocation;

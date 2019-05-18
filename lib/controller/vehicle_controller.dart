@@ -11,19 +11,46 @@ class VehicleController extends ResourceController {
   Future<Response> getAllVehicles() async {
     final query = Query<Vehicle>(context);
     final vehicles = await query.fetch();
-    final List<AddVehicleResponseObject> response =
-        vehicles.map((vehicle) => AddVehicleResponseObject.fromVehicle(vehicle)).toList();
+    final List<AlterVehicleResponseObject> response =
+        vehicles.map((vehicle) => AlterVehicleResponseObject.fromVehicle(vehicle)).toList();
 
     return Response.ok(response);
   }
 
   @Operation.post()
-  Future<Response> addVehicle() async {
-    final body = AddVehicleRequestObject()..read(await request.body.decode());
-
+  Future<Response> addVehicle(@Bind.body() AlterVehicleRequestObject body) async {
     final Vehicle vehicle = Vehicle.fromData(data: body);
     final Vehicle insertedVehicle = await context.insertObject(vehicle);
 
-    return Response.ok(AddVehicleResponseObject.fromVehicle(insertedVehicle));
+    return Response.ok(AlterVehicleResponseObject.fromVehicle(insertedVehicle));
+  }
+
+  @Operation.put('id')
+  Future<Response> editVehicle(@Bind.path('id') int id, @Bind.body() AlterVehicleRequestObject body) async {
+    final query = Query<Vehicle>(context)
+      ..where((v) => v.id).equalTo(id)
+      ..values = Vehicle.fromData(data: body);
+
+    final updatedVehicle = await query.updateOne();
+
+    if(updatedVehicle == null) {
+      return Response.notFound();
+    }
+
+    return Response.ok(AlterVehicleResponseObject.fromVehicle(updatedVehicle));
+  }
+
+  @Operation.delete('id')
+  Future<Response> deleteVehicle(@Bind.path('id') int id) async {
+    final query = Query<Vehicle>(context)
+      ..where((v) => v.id).equalTo(id);
+
+    final deletedVehicle = await query.fetchOne();
+
+    if(deletedVehicle == null) {
+      return Response.notFound();
+    }
+
+    return Response.ok(AlterVehicleResponseObject.fromVehicle(deletedVehicle));
   }
 }

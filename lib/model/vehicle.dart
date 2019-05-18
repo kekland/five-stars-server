@@ -18,17 +18,30 @@ class _Vehicle {
   double volume;
 
   VehicleType vehicleType;
+
+  DateTime createdAt;
+  DateTime updatedAt;
 }
 
 class Vehicle extends ManagedObject<_Vehicle> implements _Vehicle {
   Vehicle();
-  
-  Vehicle.fromData({AddVehicleRequestObject data}) {
+
+  Vehicle.fromData({AlterVehicleRequestObject data}) {
     arrivalLocation = data.arrival;
     departureLocation = data.departure;
     weight = data.weight;
     volume = data.volume;
     vehicleType = data.vehicleType;
+  }
+
+  @override
+  void willUpdate() {
+    updatedAt = DateTime.now().toUtc();
+  }
+
+  @override
+  void willInsert() {
+    createdAt = DateTime.now().toUtc();
   }
 
   Location get departureLocation =>
