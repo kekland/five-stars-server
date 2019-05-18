@@ -1,6 +1,7 @@
 import 'package:aqueduct/aqueduct.dart';
+import 'package:five_stars_server/shared/validated_serializable.dart';
 
-class Location extends Serializable {
+class Location extends ValidatedSerializable {
   Location({this.latitude, this.longitude, this.name});
 
   double latitude;
@@ -18,24 +19,13 @@ class Location extends Serializable {
   }
 
   @override
-  void readFromMap(Map<String, dynamic> object) {
-    try {
-      final List<String> reasons = [];
+  List<String> get keysToCheck => ['latitude', 'longitude', 'name'];
 
-      if (object['latitude'] == null) reasons.add('latitude must not be null');
-      if (object['longitude'] == null) reasons.add('longitude must not be null');
-      if (object['name'] == null) reasons.add('name must not be null');
-
-      if (reasons.isNotEmpty) {
-        throw SerializableException(reasons);
-      }
-
-      latitude = object['latitude'] as double;
-      longitude = object['longitude'] as double;
-      name = object['name'] as String;
-    } catch (error) {
-      throw SerializableException([error.toString()]);
-    }
+  @override
+  void readFromMapSerialized(Map<String, dynamic> object) {
+    latitude = object['latitude'] as double;
+    longitude = object['longitude'] as double;
+    name = object['name'] as String;
   }
 }
 

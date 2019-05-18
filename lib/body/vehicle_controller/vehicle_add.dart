@@ -1,7 +1,8 @@
 import 'package:aqueduct/aqueduct.dart';
 import 'package:five_stars_server/model/shared.dart';
+import 'package:five_stars_server/shared/validated_serializable.dart';
 
-class AddVehicleObject extends Serializable {
+class AddVehicleObject extends ValidatedSerializable {
   Location departure;
   Location arrival;
   double weight;
@@ -21,27 +22,14 @@ class AddVehicleObject extends Serializable {
   }
 
   @override
-  void readFromMap(Map<String, dynamic> object) {
-    try {
-      final List<String> reasons = [];
+  List<String> get keysToCheck => ['departure', 'arrival', 'weight', 'volume', 'vehicleType'];
 
-      if (object['departure'] == null) reasons.add('departure must not be null');
-      if (object['arrival'] == null) reasons.add('arrival must not be null');
-      if (object['weight'] == null) reasons.add('weight must not be null');
-      if (object['volume'] == null) reasons.add('volume must not be null');
-      if (object['vehicleType'] == null) reasons.add('vehicleType must not be null');
-
-      if (reasons.isNotEmpty) {
-        throw SerializableException(reasons);
-      }
-
-      departure = Location()..readFromMap(object['departure'] as Map<String, dynamic>);
-      arrival = Location()..readFromMap(object['arrival'] as Map<String, dynamic>);
-      weight = object['weight'] as double;
-      volume = object['volume'] as double;
-      vehicleType = vehicleTypeStrings[object['vehicleType']];
-    } catch (error) {
-      throw SerializableException([error.toString()]);
-    }
+  @override
+  void readFromMapSerialized(Map<String, dynamic> object) {
+    departure = Location()..readFromMap(object['departure'] as Map<String, dynamic>);
+    arrival = Location()..readFromMap(object['arrival'] as Map<String, dynamic>);
+    weight = object['weight'] as double;
+    volume = object['volume'] as double;
+    vehicleType = vehicleTypeStrings[object['vehicleType']];
   }
 }
