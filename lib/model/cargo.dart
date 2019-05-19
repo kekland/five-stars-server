@@ -1,6 +1,7 @@
 import 'package:aqueduct/aqueduct.dart';
 import 'package:five_stars_server/body/cargo_controller/cargo_alter.dart';
 import 'package:five_stars_server/model/shared.dart';
+import 'package:five_stars_server/model/user.dart';
 
 class _Cargo {
   @primaryKey
@@ -25,6 +26,9 @@ class _Cargo {
 
   DateTime createdAt;
   DateTime updatedAt;
+
+  @Relate(#cargo)
+  User owner;
 }
 
 class Cargo extends ManagedObject<_Cargo> implements _Cargo {

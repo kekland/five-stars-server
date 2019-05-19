@@ -14,34 +14,33 @@ class CargoController extends ResourceController {
     final List<AlterCargoResponseObject> response =
         cargos.map((cargo) => AlterCargoResponseObject.fromCargo(cargo)).toList();
 
+    print(cargos[0].owner);
+
     return Response.ok(response);
   }
 
   @Operation.post()
   Future<Response> addCargo(@Bind.body() AlterCargoRequestObject body) async {
-    if(request.authorization == null) {
-      return Response.forbidden();
-    }
-    
     final Cargo cargo = Cargo.fromData(data: body);
-    final Cargo insertedCargo = await context.insertObject(cargo);
+
+    final query = Query<Cargo>(context)
+      ..values = cargo
+      ..values.owner.id = request.authorization.ownerID;
+
+    final Cargo insertedCargo = await query.insert();
 
     return Response.ok(AlterCargoResponseObject.fromCargo(insertedCargo));
   }
 
   @Operation.put('id')
   Future<Response> editCargo(@Bind.path('id') int id, @Bind.body() AlterCargoRequestObject body) async {
-    if(request.authorization == null) {
-      return Response.forbidden();
-    }
-
     final query = Query<Cargo>(context)
       ..where((c) => c.id).equalTo(id)
       ..values = Cargo.fromData(data: body);
 
     final updatedCargo = await query.updateOne();
 
-    if(updatedCargo == null) {
+    if (updatedCargo == null) {
       return Response.notFound(body: {"error": "not-found"});
     }
 
@@ -50,16 +49,11 @@ class CargoController extends ResourceController {
 
   @Operation.delete('id')
   Future<Response> deleteCargo(@Bind.path('id') int id) async {
-    if(request.authorization == null) {
-      return Response.forbidden();
-    }
-
-    final query = Query<Cargo>(context)
-      ..where((c) => c.id).equalTo(id);
+    final query = Query<Cargo>(context)..where((c) => c.id).equalTo(id);
 
     final deletedCargoCount = await query.delete();
 
-    if(deletedCargoCount == 0) {
+    if (deletedCargoCount == 0) {
       return Response.notFound(body: {"error": "not-found"});
     }
 

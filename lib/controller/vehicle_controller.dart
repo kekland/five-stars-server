@@ -9,7 +9,8 @@ class VehicleController extends ResourceController {
 
   @Operation.get()
   Future<Response> getAllVehicles() async {
-    final query = Query<Vehicle>(context);
+    final query = Query<Vehicle>(context)..join(object: (a) => a.owner);
+
     final vehicles = await query.fetch();
     final List<AlterVehicleResponseObject> response =
         vehicles.map((vehicle) => AlterVehicleResponseObject.fromVehicle(vehicle)).toList();
@@ -19,23 +20,19 @@ class VehicleController extends ResourceController {
 
   @Operation.post()
   Future<Response> addVehicle(@Bind.body() AlterVehicleRequestObject body) async {
-    if(request.authorization == null) {
-      print(request.authorization);
-      return Response.unauthorized();
-    }
-
     final Vehicle vehicle = Vehicle.fromData(data: body);
-    final Vehicle insertedVehicle = await context.insertObject(vehicle);
+
+    final query = Query<Vehicle>(context)
+      ..values = vehicle
+      ..values.owner.id = request.authorization.ownerID;
+
+    final Vehicle insertedVehicle = await query.insert();
 
     return Response.ok(AlterVehicleResponseObject.fromVehicle(insertedVehicle));
   }
 
   @Operation.put('id')
   Future<Response> editVehicle(@Bind.path('id') int id, @Bind.body() AlterVehicleRequestObject body) async {
-    if(request.authorization == null) {
-      return Response.unauthorized();
-    }
-
     final query = Query<Vehicle>(context)
       ..where((v) => v.id).equalTo(id)
       ..values = Vehicle.fromData(data: body);
@@ -51,10 +48,6 @@ class VehicleController extends ResourceController {
 
   @Operation.delete('id')
   Future<Response> deleteVehicle(@Bind.path('id') int id) async {
-    if(request.authorization == null) {
-      return Response.unauthorized();
-    }
-    
     final query = Query<Vehicle>(context)
       ..where((v) => v.id).equalTo(id);
 

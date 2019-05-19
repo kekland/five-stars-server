@@ -1,6 +1,7 @@
 import 'package:aqueduct/aqueduct.dart';
 import 'package:five_stars_server/body/vehicle_controller/vehicle_alter.dart';
 import 'package:five_stars_server/model/shared.dart';
+import 'package:five_stars_server/model/user.dart';
 
 class _Vehicle {
   @primaryKey
@@ -21,6 +22,9 @@ class _Vehicle {
 
   DateTime createdAt;
   DateTime updatedAt;
+
+  @Relate(#vehicles)
+  User owner;
 }
 
 class Vehicle extends ManagedObject<_Vehicle> implements _Vehicle {

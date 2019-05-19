@@ -1,6 +1,8 @@
 import 'package:aqueduct/aqueduct.dart';
+import 'package:five_stars_server/body/user_controller/registration.dart';
 import 'package:five_stars_server/model/cargo.dart';
 import 'package:five_stars_server/model/shared.dart';
+import 'package:five_stars_server/model/user.dart';
 import 'package:five_stars_server/model/vehicle.dart';
 import 'package:five_stars_server/shared/route_serializable.dart';
 import 'package:five_stars_server/shared/validated_serializable.dart';
@@ -48,6 +50,8 @@ class AlterCargoResponseObject extends ResponseSerializable {
     vehicleType = cargo.vehicleType;
     createdAt = cargo.createdAt;
     updatedAt = cargo.updatedAt;
+
+    owner = RegistrationResponseObject.fromUser(cargo.owner);
   }
 
   int id;
@@ -66,6 +70,8 @@ class AlterCargoResponseObject extends ResponseSerializable {
   DateTime createdAt;
   DateTime updatedAt;
 
+  RegistrationResponseObject owner;
+
   @override
   Map<String, dynamic> asMap() {
     return {
@@ -80,6 +86,7 @@ class AlterCargoResponseObject extends ResponseSerializable {
       "vehicleType": VehicleTypeUtils.vehicleTypeToString(vehicleType),
       "createdAt": createdAt.toIso8601String(),
       "updatedAt": updatedAt.toIso8601String(),
+      "owner": owner.asMap(),
     };
   }
 }
