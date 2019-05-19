@@ -35,6 +35,7 @@ class VehicleController extends ResourceController {
   Future<Response> editVehicle(@Bind.path('id') int id, @Bind.body() AlterVehicleRequestObject body) async {
     final query = Query<Vehicle>(context)
       ..where((v) => v.id).equalTo(id)
+      ..where((c) => c.owner).identifiedBy(request.authorization.ownerID)
       ..values = Vehicle.fromData(data: body);
 
     final updatedVehicle = await query.updateOne();
@@ -49,7 +50,8 @@ class VehicleController extends ResourceController {
   @Operation.delete('id')
   Future<Response> deleteVehicle(@Bind.path('id') int id) async {
     final query = Query<Vehicle>(context)
-      ..where((v) => v.id).equalTo(id);
+      ..where((v) => v.id).equalTo(id)
+      ..where((c) => c.owner).identifiedBy(request.authorization.ownerID);
 
     final deletedVehicleCount = await query.delete();
 

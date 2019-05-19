@@ -36,6 +36,7 @@ class CargoController extends ResourceController {
   Future<Response> editCargo(@Bind.path('id') int id, @Bind.body() AlterCargoRequestObject body) async {
     final query = Query<Cargo>(context)
       ..where((c) => c.id).equalTo(id)
+      ..where((c) => c.owner).identifiedBy(request.authorization.ownerID)
       ..values = Cargo.fromData(data: body);
 
     final updatedCargo = await query.updateOne();
@@ -49,7 +50,9 @@ class CargoController extends ResourceController {
 
   @Operation.delete('id')
   Future<Response> deleteCargo(@Bind.path('id') int id) async {
-    final query = Query<Cargo>(context)..where((c) => c.id).equalTo(id);
+    final query = Query<Cargo>(context)
+      ..where((c) => c.id).equalTo(id)
+      ..where((c) => c.owner).identifiedBy(request.authorization.ownerID);
 
     final deletedCargoCount = await query.delete();
 

@@ -11,6 +11,10 @@ class User extends ManagedObject<_User> implements _User, ManagedAuthResourceOwn
     username = data.username;
     email = data.email;
     phoneNumber = data.phoneNumber;
+    firstName = data.firstName;
+    middleName = data.middleName;
+    lastName = data.lastName;
+    organization = data.organization;
     salt = AuthUtility.generateRandomSalt();
   }
 }
@@ -28,7 +32,7 @@ class _User extends ResourceOwnerTableDefinition {
   String firstName;
   String middleName;
   String lastName;
-  
+
   String organization;
 
   ManagedSet<Cargo> cargo;
