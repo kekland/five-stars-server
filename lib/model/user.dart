@@ -20,10 +20,10 @@ class User extends ManagedObject<_User> implements _User, ManagedAuthResourceOwn
 }
 
 class _User extends ResourceOwnerTableDefinition {
-  @Column(indexed: true)
+  @Column(indexed: true, unique: true)
   String email;
 
-  @Column(indexed: true)
+  @Column(indexed: true, unique: true)
   String phoneNumber;
 
   @Column(defaultValue: "false")

@@ -1,6 +1,7 @@
 import 'package:aqueduct/managed_auth.dart';
 import 'package:five_stars_server/controller/cargo_controller.dart';
 import 'package:five_stars_server/controller/user_controller.dart';
+import 'package:five_stars_server/controller/validity_controller.dart';
 import 'package:five_stars_server/controller/vehicle_controller.dart';
 import 'package:five_stars_server/model/user.dart';
 
@@ -41,6 +42,7 @@ class FiveStarsServerChannel extends ApplicationChannel {
     router.route('vehicle/[:id]').link(() => Authorizer.bearer(authServer)).link(() => VehicleController(context));
     router.route('cargo/[:id]').link(() => Authorizer.bearer(authServer)).link(() => CargoController(context));
     router.route('user').link(() => UserController(context, authServer));
+    router.route('user/valid').link(() => ValidityController(context, authServer));
 
     return router;
   }

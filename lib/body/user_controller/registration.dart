@@ -18,7 +18,7 @@ class RegistrationRequestObject extends RequestSerializable {
 
   @override
   List<String> get keysToCheck =>
-      ['username', 'password', 'email', 'phoneNumber', 'firstName', 'middleName', 'lastName', 'organization'];
+      ['username', 'password', 'email', 'phoneNumber', 'firstName', 'lastName', 'organization'];
 
   @override
   void readFromMapSerialized(Map<String, dynamic> object) {
