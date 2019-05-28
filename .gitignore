@@ -10,6 +10,7 @@ packages
 workspace.xml
 Dart_Packages.xml
 .DS_Store
+migrations/
 .idea/
 .vscode/
 *.aqueduct.pid

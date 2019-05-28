@@ -13,7 +13,6 @@ class ValidityController extends ResourceController {
     final username = await (Query<User>(context)..where((u) => u.username).equalTo(data.username)).fetchOne();
     final email = await (Query<User>(context)..where((u) => u.email).equalTo(data.email)).fetchOne();
     final phoneNumber = await (Query<User>(context)..where((u) => u.phoneNumber).equalTo(data.phoneNumber)).fetchOne();
-
     return Response.ok(ValidityResponseObject(
       usernameAvailable: username == null,
       emailAvailable: email == null,

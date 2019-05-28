@@ -9,12 +9,12 @@ class CargoController extends ResourceController {
 
   @Operation.get()
   Future<Response> getAllCargo() async {
-    final query = Query<Cargo>(context);
+    final query = Query<Cargo>(context)..join(object: (a) => a.owner);
     final cargos = await query.fetch();
     final List<AlterCargoResponseObject> response =
         cargos.map((cargo) => AlterCargoResponseObject.fromCargo(cargo)).toList();
 
-    print(cargos[0].owner);
+    //print(cargos[0].owner);
 
     return Response.ok(response);
   }
